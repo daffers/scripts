@@ -1,4 +1,4 @@
-﻿param([string]$targetDirectory="c:\bbs\",[bool]$debug=$False)
+﻿param([string]$targetDirectory="C:\bbs\",[bool]$debug=$True)
 
 Function Get-EpisodeListings
 {
@@ -16,13 +16,14 @@ Function Get-EpisodeListings
 	return $episodes
 } 
 
-Function Try-WriteEpisode([string]$outputPath, [string]$sourceUrl)
+Function Try-WriteEpisode($outputPath, $sourceUrl)
 {
 	if (-Not (Test-Path $outputPath))
 	{
+		Write-Host "Downloading episode from " $sourceUrl
 		Write-Host "Downloading episode to " $outputPath
-		#$response = Invoke-WebRequest -Uri $episodeUrl.url -OutFile $outputName
-		"data" | Out-File $outputPath
+		#Invoke-WebRequest -Uri $sourceUrl -OutFile $outputPath
+		$sourceUrl | Out-File $outputPath
 	}
 	else
 	{
@@ -73,7 +74,6 @@ Function Update-Drive
 	$episodeInLink = "http://traffic.libsyn.com/barbellshrugged/(bs)?(?<episodeNum>\d+)itunes.mp3(?:\.m4a)?"
 	$episodeInLinkMatch = new-object System.Text.RegularExpressions.Regex ($episodeInLink, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
 
-	BBS_Episode199_FINAL.mp3.m4a
 	$episodeInLink2 = "http://traffic.libsyn.com/barbellshrugged/(_)?(BBS_)?Episode_?(?<episodeNum>\d+)(_audio(_)?only)?(_FINAL)?(_AudioOnly)?.mp3(?:\.m4a)?"
 	$episodeInLinkMatch2 = new-object System.Text.RegularExpressions.Regex ($episodeInLink2, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
 		
@@ -89,7 +89,9 @@ Function Update-Drive
 	foreach ($episode in $episodes)
 	{
 		 $episodeName = $episode.SelectSingleNode('title').'#text'
-		 $episodeUrl = $episode.SelectSingleNode('enclosure') | select url
+		 $urlNode = $episode.SelectSingleNode('enclosure') 
+		$episodeUrl = $urlNode.Attributes["url"].Value
+
         
 		 $match = $numAtEndMatch.Match($episodeName)
 
@@ -249,7 +251,7 @@ Function Update-Drive
 		$cleanName = Filter-IllegalCharacters($episodeName)
 		$outputPath = $targetDirectory + "Unmatched\" + $cleanName + ".mp3"
 
-		Try-WriteEpisode($outputPath, $episodeUrl)
+		Try-WriteEpisode $outputPath  $episodeUrl
 	}
 }
 

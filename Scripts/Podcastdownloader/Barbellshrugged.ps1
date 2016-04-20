@@ -22,8 +22,8 @@ Function Try-WriteEpisode($outputPath, $sourceUrl)
 	{
 		Write-Host "Downloading episode from " $sourceUrl
 		Write-Host "Downloading episode to " $outputPath
-		#Invoke-WebRequest -Uri $sourceUrl -OutFile $outputPath
-		$sourceUrl | Out-File $outputPath
+		Invoke-WebRequest -Uri $sourceUrl -OutFile $outputPath
+		#$sourceUrl | Out-File $outputPath
 	}
 	else
 	{
@@ -103,7 +103,7 @@ Function Update-Drive
 			$cleanName = Filter-IllegalCharacters($cleanName)
 			$outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 
-		   Try-WriteEpisode($outputPath, $episodeUrl)
+		   Try-WriteEpisode $outputPath  $episodeUrl
 
 			continue;
 		 }
@@ -118,7 +118,7 @@ Function Update-Drive
 			$cleanName = Filter-IllegalCharacters($cleanName)
 			$outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
         		 		 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 
 			continue;
 		 }
@@ -136,7 +136,7 @@ Function Update-Drive
 			 $cleanName = Filter-IllegalCharacters($cleanName)
 			 $outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 		 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 
 			continue;
 		 }
@@ -151,7 +151,7 @@ Function Update-Drive
 			$cleanName = $cleanName -replace "\s-\sEpisode\s\d{2,3}", ""
 		    $outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 			
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 
 		    continue;
 		 }
@@ -166,7 +166,7 @@ Function Update-Drive
 			 $cleanName = $cleanName -replace "\s-\sEPISODE\s\d{2,3}", ""
 		    $outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 			
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 
 		    continue;
 		 }
@@ -181,7 +181,7 @@ Function Update-Drive
 	 		$cleanName = Filter-IllegalCharacters($episodeName)
 		    $outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 		    
 			 continue;
 		 }
@@ -195,7 +195,7 @@ Function Update-Drive
 	 		$cleanName = Filter-IllegalCharacters($episodeName)
 		    $outputPath = $targetDirectory + $fepNum + " - " + $cleanName + ".mp3"
 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 		    
 			 continue;
 		 }
@@ -209,7 +209,7 @@ Function Update-Drive
 	 		$cleanName = Filter-IllegalCharacters($episodeName)
 		    $outputPath = $targetDirectory + "best of\" + $cleanName + ".mp3"
 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 		    
 			 continue;
 		 }
@@ -225,7 +225,7 @@ Function Update-Drive
 	 		$cleanName = Filter-IllegalCharacters($subEpisodeName)
 		    $outputPath = $targetDirectory + "Interogation Series\" + $fepNum + " - " + $cleanName + ".mp3"
 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 		    
 			 continue;
 		 }
@@ -240,7 +240,7 @@ Function Update-Drive
 	 		$cleanName = Filter-IllegalCharacters($episodeName)
 		    $outputPath = $targetDirectory + "Flight\" + $fepNum + " - " + $cleanName + ".mp3"
 
-			Try-WriteEpisode($outputPath, $episodeUrl)
+			Try-WriteEpisode $outputPath  $episodeUrl
 		    
 			 continue;
 		 }
